@@ -1,0 +1,79 @@
+using System;
+
+class MathSeries
+{
+    // Расчет факториала числа
+    static double CalcFact(int number)
+    {
+        if (number == 0) return 1;
+        
+        double factResult = 1;
+        for (int count = 1; count <= number; count++)
+        {
+            factResult = factResult * count;
+        }
+        return factResult;
+    }
+
+    // Вычисление элемента ряда с номером n
+    static double GetSeriesElement(double xValue, int n)
+    {
+        // Степень для текущего элемента
+        int powerValue = 2 * n + 1;
+        
+        // Числитель и знаменатель
+        double topPart = Math.Pow(xValue, powerValue);
+        double bottomPart = CalcFact(powerValue);
+        
+        // Чередование знаков
+        if (n % 2 == 1)
+            return -topPart / bottomPart;
+        else
+            return topPart / bottomPart;
+    }
+
+    // Подсчет суммы ряда с заданной точностью
+    static double SumSeries(double xValue, double accuracy)
+    {
+        double seriesSum = 0;
+        int elementCount = 0;
+        double currentElement;
+
+        // Суммируем элементы пока текущий элемент больше точности
+        do
+        {
+            currentElement = GetSeriesElement(xValue, elementCount);
+            seriesSum += currentElement;
+            elementCount++;
+        } while (Math.Abs(currentElement) > accuracy);
+
+        return seriesSum;
+    }
+
+    static void Main()
+    {
+        // Получаем данные от пользователя
+        Console.WriteLine("Введите значение x:");
+        double userX = double.Parse(Console.ReadLine());
+
+        Console.WriteLine("Введите точность (меньше 0.01):");
+        double userAccuracy = double.Parse(Console.ReadLine());
+        
+        // Проверяем корректность точности
+        if (userAccuracy >= 0.01)
+        {
+            Console.WriteLine("Ошибка: точность должна быть меньше 0.01");
+            return;
+        }
+
+        // Вычисляем и показываем результат
+        double functionValue = SumSeries(userX, userAccuracy);
+        Console.WriteLine($"Результат: {functionValue} (точность: {userAccuracy})");
+
+        // Запрашиваем и показываем конкретный элемент
+        Console.WriteLine("Введите номер элемента:");
+        int elementNum = int.Parse(Console.ReadLine());
+        double elementValue = GetSeriesElement(userX, elementNum);
+        Console.WriteLine($"Элемент {elementNum}: {elementValue}");
+    }
+}
