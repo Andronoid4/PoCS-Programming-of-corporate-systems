@@ -1,0 +1,45 @@
+using System;
+
+class BacteriaExperiment
+{
+    static void Main()
+    {
+        // Ввод исходных данных
+        Console.Write("Введите количество бактерий (N): ");
+        int bacteria = int.Parse(Console.ReadLine());
+
+        Console.Write("Введите количество капель антибиотика (X): ");
+        int antibioticDrops = int.Parse(Console.ReadLine());
+
+        int killPower = 10;  // Кол-во бактерий, убиваемых одной каплей в первый час
+        int hour = 0;        // Счётчик часов эксперимента
+
+        Console.WriteLine(); // Пустая строка для удобства вывода
+
+        // Основной цикл эксперимента
+        while (bacteria > 0 && killPower > 0)
+        {
+            hour++;
+
+            // 1. Сначала бактерии размножаются
+            bacteria *= 2;
+
+            // 2. Затем действует антибиотик
+            int killed = antibioticDrops * killPower;
+            bacteria -= killed;
+
+            if (bacteria < 0)
+                bacteria = 0; // Бактерии не могут быть отрицательными
+
+            Console.WriteLine($"После {hour} часа бактерий осталось: {bacteria}");
+
+            killPower--; // Каждый час эффективность антибиотика уменьшается
+        }
+
+        Console.WriteLine("\nЭксперимент завершён.");
+        if (bacteria == 0)
+            Console.WriteLine("Все бактерии уничтожены!");
+        else
+            Console.WriteLine("Антибиотик перестал действовать.");
+    }
+}
