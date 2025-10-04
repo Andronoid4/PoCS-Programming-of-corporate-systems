@@ -1,0 +1,63 @@
+using System;
+
+// Основной класс программы для проверки билета
+class LuckyTicketChecker
+{
+    // Главный метод, с которого начинается выполнение
+    static void Main()
+    {
+        Console.WriteLine("--- Программа проверки счастливого билета ---");
+        int ticketNumber = GetTicketNumberFromUser();
+
+        // Проверяем, является ли билет счастливым
+        if (IsLucky(ticketNumber))
+        {
+            Console.WriteLine("Ура! Ваш билет счастливый!");
+        }
+        else
+        {
+            Console.WriteLine("Жаль, билет не счастливый.");
+        }
+    }
+
+    // Функция запрашивает у пользователя номер билета и проверяет его корректность
+    static int GetTicketNumberFromUser()
+    {
+        while (true) // Бесконечный цикл для повторного ввода в случае ошибки
+        {
+            Console.Write("Введите шестизначный номер билета: ");
+            string input = Console.ReadLine();
+
+            // Проверяем, что введено число и оно состоит из 6 символов
+            if (int.TryParse(input, out int number) && input.Length == 6)
+            {
+                return number; // Если все верно, возвращаем число
+            }
+            
+            Console.WriteLine("Ошибка! Номер должен состоять ровно из 6 цифр.");
+        }
+    }
+
+    // Вычисляет сумму цифр для части номера (для трехзначного числа)
+    static int SumDigits(int numberPart)
+    {
+        int firstDigit = numberPart / 100;
+        int secondDigit = (numberPart / 10) % 10;
+        int thirdDigit = numberPart % 10;
+
+        return firstDigit + secondDigit + thirdDigit;
+    }
+
+    // Главная функция, определяющая "счастливость" билета
+    static bool IsLucky(int fullTicketNumber)
+    {
+        // Получаем первые три цифры
+        int firstHalf = fullTicketNumber / 1000;
+        
+        // Получаем последние три цифры
+        int secondHalf = fullTicketNumber % 1000;
+
+        // Возвращаем результат сравнения сумм цифр обеих половин
+        return SumDigits(firstHalf) == SumDigits(secondHalf);
+    }
+}
