@@ -1,0 +1,49 @@
+using System;
+
+class MarsColony
+{
+    // Проверка, можно ли разместить n модулей с толщиной защиты d
+    static bool CanFitModules(int n, int a, int b, int h, int w, int d)
+    {
+        // Новые размеры модуля с учётом защиты
+        int fullA = a + 2 * d;
+        int fullB = b + 2 * d;
+
+        // Подсчёт количества модулей, помещающихся в поле при двух ориентациях
+        int byWidth1 = w / fullA;
+        int byHeight1 = h / fullB;
+        int byWidth2 = w / fullB;
+        int byHeight2 = h / fullA;
+
+        // Проверяем, можно ли разместить все модули хотя бы в одной ориентации
+        return (byWidth1 * byHeight1 >= n) || (byWidth2 * byHeight2 >= n);
+    }
+
+    static void Main()
+    {
+        Console.WriteLine("=== Колонизация Марса ===\n");
+
+        // Ввод исходных данных
+        Console.Write("Введите количество модулей (n): ");
+        int n = int.Parse(Console.ReadLine());
+
+        Console.Write("Введите размеры модуля (a и b через пробел): ");
+        string[] ab = Console.ReadLine().Split();
+        int a = int.Parse(ab[0]);
+        int b = int.Parse(ab[1]);
+
+        Console.Write("Введите размеры поля (h и w через пробел): ");
+        string[] hw = Console.ReadLine().Split();
+        int h = int.Parse(hw[0]);
+        int w = int.Parse(hw[1]);
+
+        int d = 0;
+
+        // Подбираем максимальную толщину защиты, пока модули помещаются
+        while (CanFitModules(n, a, b, h, w, d + 1))
+            d++;
+
+        // Вывод результата
+        Console.WriteLine($"\nМаксимальная толщина защитного слоя: d = {d}");
+    }
+}
