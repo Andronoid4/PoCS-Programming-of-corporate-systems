@@ -1,0 +1,44 @@
+using System;
+
+class NumberGuesser
+{
+    static void Main()
+    {
+        Console.WriteLine("Загадайте число от 0 до 63.");
+        Console.WriteLine("Я попробую угадать его максимум за 7 вопросов!");
+        Console.WriteLine("Отвечайте 1 (да) или 0 (нет).\n");
+
+        int min = 0;     // Нижняя граница диапазона
+        int max = 63;    // Верхняя граница диапазона
+        int questions = 0; // Счётчик заданных вопросов
+
+        // Алгоритм бинарного поиска: каждый вопрос делит диапазон пополам
+        while (min < max)
+        {
+            int middle = (min + max) / 2; // Находим середину диапазона
+            questions++;
+
+            Console.Write($"({questions}/7) Ваше число больше {middle}? (1/0): ");
+            string input = Console.ReadLine();
+
+            // Проверка корректности ответа
+            if (input != "1" && input != "0")
+            {
+                Console.WriteLine("Введите только 1 (да) или 0 (нет).");
+                continue;
+            }
+
+            bool isGreater = input == "1"; // Преобразуем ответ в логическое значение
+
+            // Сужаем диапазон поиска в зависимости от ответа
+            if (isGreater)
+                min = middle + 1;
+            else
+                max = middle;
+        }
+
+        // Когда диапазон сузился до одного числа — выводим результат
+        Console.WriteLine($"\nВаше число: {min}");
+        Console.WriteLine($"Угадано за {questions} вопрос(ов)!");
+    }
+}
