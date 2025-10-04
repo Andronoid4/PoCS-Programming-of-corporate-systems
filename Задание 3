@@ -1,0 +1,48 @@
+using System;
+
+class FractionReducer
+{
+    // Метод для нахождения НОД (наибольшего общего делителя)
+    static int GCD(int x, int y)
+    {
+        // Алгоритм Евклида
+        while (y != 0)
+        {
+            int remainder = x % y;
+            x = y;
+            y = remainder;
+        }
+        return Math.Abs(x);
+    }
+
+    // Главная функция программы
+    static void Main()
+    {
+        Console.Write("Введите числитель: ");
+        int numerator = int.Parse(Console.ReadLine());
+
+        Console.Write("Введите знаменатель: ");
+        int denominator = int.Parse(Console.ReadLine());
+
+        // Проверка деления на ноль
+        if (denominator == 0)
+        {
+            Console.WriteLine("Ошибка: знаменатель не может быть равен нулю!");
+            return;
+        }
+
+        int gcd = GCD(numerator, denominator);
+
+        numerator /= gcd;
+        denominator /= gcd;
+
+        // Убираем двойной минус, если оба отрицательны
+        if (denominator < 0)
+        {
+            numerator = -numerator;
+            denominator = -denominator;
+        }
+
+        Console.WriteLine($"Результат: {numerator} / {denominator}");
+    }
+}
