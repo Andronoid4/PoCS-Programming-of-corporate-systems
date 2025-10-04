@@ -1,0 +1,112 @@
+using System;
+
+class CoffeeMachine
+{
+    // Остатки ингредиентов
+    private int water;
+    private int milk;
+
+    // Счётчики приготовленных напитков
+    private int americanoCount = 0;
+    private int latteCount = 0;
+
+    // Константы для рецептов
+    private const int AmericanoWater = 300;
+    private const int LatteWater = 30;
+    private const int LatteMilk = 270;
+    private const int AmericanoPrice = 150;
+    private const int LattePrice = 170;
+
+    public void Run()
+    {
+        // Ввод начальных данных
+        Console.Write("Введите количество воды (мл): ");
+        water = int.Parse(Console.ReadLine());
+
+        Console.Write("Введите количество молока (мл): ");
+        milk = int.Parse(Console.ReadLine());
+        Console.WriteLine();
+
+        // Основной цикл обслуживания посетителей
+        while (true)
+        {
+            // Проверка, есть ли ингредиенты хотя бы на один напиток
+            if (water < AmericanoWater && (water < LatteWater || milk < LatteMilk))
+            {
+                ShowReport();
+                break;
+            }
+
+            Console.Write("Выберите напиток (1 — Американо, 2 — Латте): ");
+            string input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    MakeAmericano();
+                    break;
+                case "2":
+                    MakeLatte();
+                    break;
+                default:
+                    Console.WriteLine("Неверный выбор, попробуйте снова.\n");
+                    break;
+            }
+        }
+    }
+
+    // Приготовление американо
+    private void MakeAmericano()
+    {
+        if (water >= AmericanoWater)
+        {
+            water -= AmericanoWater;
+            americanoCount++;
+            Console.WriteLine($"Ваш напиток готов! Цена: {AmericanoPrice} руб.\n");
+        }
+        else
+        {
+            Console.WriteLine("Не хватает воды.\n");
+        }
+    }
+
+    // Приготовление латте
+    private void MakeLatte()
+    {
+        if (water >= LatteWater && milk >= LatteMilk)
+        {
+            water -= LatteWater;
+            milk -= LatteMilk;
+            latteCount++;
+            Console.WriteLine($"Ваш напиток готов! Цена: {LattePrice} руб.\n");
+        }
+        else if (water < LatteWater)
+        {
+            Console.WriteLine("Не хватает воды.\n");
+        }
+        else
+        {
+            Console.WriteLine("Не хватает молока.\n");
+        }
+    }
+
+    // Итоговый отчёт
+    private void ShowReport()
+    {
+        Console.WriteLine("\n*** Отчёт ***");
+        Console.WriteLine("Ингредиенты подошли к концу.");
+        Console.WriteLine($"Остаток воды: {water} мл");
+        Console.WriteLine($"Остаток молока: {milk} мл");
+        Console.WriteLine($"Кружек американо приготовлено: {americanoCount}");
+        Console.WriteLine($"Кружек латте приготовлено: {latteCount}");
+
+        int total = americanoCount * AmericanoPrice + latteCount * LattePrice;
+        Console.WriteLine($"Итого заработано: {total} руб.\n");
+    }
+
+    static void Main()
+    {
+        CoffeeMachine machine = new CoffeeMachine();
+        machine.Run();
+    }
+}
