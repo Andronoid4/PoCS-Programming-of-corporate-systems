@@ -1,0 +1,39 @@
+@model TravelGuide.Models.Attraction
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Cities" asp-action="Index">Города</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Cities" asp-action="Details" asp-route-id="@Model.CityId">@Model.City?.Name</a></li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <!-- Информация о достопримечательности -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-fluid rounded" style="max-height: 400px;" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'" />
+        </div>
+        <div class="col-md-6">
+            <h1>@Model.Name</h1>
+            <p><strong>Описание:</strong></p>
+            <p>@Model.Description</p>
+            <p><strong>История:</strong></p>
+            <p>@Model.History</p>
+            <p><strong>Часы работы:</strong> @Model.WorkingHours</p>
+            @if (Model.Price.HasValue)
+            {
+                <p><strong>Стоимость посещения:</strong> @(Model.Price == 0 ? "Бесплатно" : Model.Price.Value.ToString("N0") + " ₽")</p>
+            }
+            else
+            {
+                <p><strong>Стоимость посещения:</strong> Уточняйте</p>
+            }
+            <a asp-controller="Cities" asp-action="Details" asp-route-id="@Model.CityId" class="btn btn-secondary mt-3">← Назад к городу</a>
+        </div>
+    </div>
+</div>
