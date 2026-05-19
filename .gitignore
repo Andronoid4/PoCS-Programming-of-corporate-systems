@@ -1,0 +1,66 @@
+```
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+*.vbproj.user
+*.fsproj.user
+*.userprefs
+
+# ASP.NET Core
+*.dbmdl
+*.dbproj.schemaview.xml
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+.vs/
+.vshost.exe
+.vsconfig
+
+# Environment specific settings
+appsettings.Production.json
+appsettings.Staging.json
+appsettings.Local.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
+*.cachedb
+```

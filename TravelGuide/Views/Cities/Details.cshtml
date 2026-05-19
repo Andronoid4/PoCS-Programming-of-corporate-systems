@@ -1,0 +1,62 @@
+@model TravelGuide.Models.City
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Города</a></li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <!-- Информация о городе -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <img src="@Model.PhotoUrl" alt="@Model.Name" class="img-fluid rounded" style="max-height: 400px;" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'" />
+        </div>
+        <div class="col-md-6">
+            <h1>@Model.Name</h1>
+            <p><strong>Регион:</strong> @Model.Region</p>
+            <p><strong>Население:</strong> @Model.Population.ToString("N0") чел.</p>
+            <p><strong>История:</strong></p>
+            <p>@Model.History</p>
+        </div>
+    </div>
+
+    <!-- Герб города (если есть) -->
+    @if (!string.IsNullOrEmpty(Model.CoatOfArms))
+    {
+        <div class="mb-4">
+            <h3>Герб города</h3>
+            <img src="@Model.CoatOfArms" alt="Герб @Model.Name" class="img-thumbnail" style="max-height: 200px;" onerror="this.style.display='none'" />
+        </div>
+    }
+
+    <!-- Достопримечательности -->
+    <h2 class="mt-5 mb-3">Достопримечательности</h2>
+    @if (Model.Attractions.Any())
+    {
+        <div class="row">
+            @foreach (var attraction in Model.Attractions)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@attraction.PhotoUrl" class="card-img-top" alt="@attraction.Name" style="height: 200px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'" />
+                        <div class="card-body">
+                            <h5 class="card-title">@attraction.Name</h5>
+                            <p class="card-text">@attraction.Description.Substring(0, Math.Min(80, attraction.Description.Length))...</p>
+                            <a asp-controller="Attractions" asp-action="Details" asp-route-id="@attraction.Id" class="btn btn-outline-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">В этом городе пока нет достопримечательностей</div>
+    }
+</div>
